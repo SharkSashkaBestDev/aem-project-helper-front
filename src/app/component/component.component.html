@@ -1,0 +1,100 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div class="center full-width mat-body-1">
+      <form class="aem-project-form full-width">
+        <mat-form-field class="full-width">
+          <input name="aemProjectPath" matInput placeholder="AEM Project Full Path" [(ngModel)]="projectPath">
+        </mat-form-field>
+      </form>
+    </div>
+    <span class="toolbar-spacer"></span>
+    <button mat-button (click)="showComponents()" matTooltip="Show components"><mat-icon class="toolbar-icon">visibility</mat-icon></button>
+  </mat-toolbar-row>
+  <mat-toolbar-row class="mat-body-1">
+    <mat-form-field class="width-20">
+      <mat-select placeholder="Component Group" [(ngModel)]="selectedComponentGroup" (selectionChange)="applyFilters()">
+        <mat-option *ngFor="let cGroup of componentGroups" [value]="cGroup">
+          {{ cGroup }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon class="toolbar-icon clickable" (click)="selectedComponentGroup = null; applyFilters()">delete</mat-icon>
+    <form class="aem-project-form width-20">
+      <mat-form-field class="width-20">
+        <input name="filterName" matInput placeholder="Component Name" [(ngModel)]="componentName" (keyup)="applyFilters()">
+      </mat-form-field>
+    </form>
+    <mat-icon class="toolbar-icon clickable" (click)="componentName = null; applyFilters()">delete</mat-icon>
+    <mat-form-field class="width-20">
+      <mat-select placeholder="Component Module" [(ngModel)]="selectedComponentModule" (selectionChange)="applyFilters()">
+        <mat-option *ngFor="let cModule of componentModules" [value]="cModule">
+          {{ cModule }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon class="toolbar-icon clickable" (click)="selectedComponentModule = null; applyFilters()">delete</mat-icon>
+    <span class="toolbar-spacer"></span>
+    <p>
+      <span [matBadge]="filteredComponents ? filteredComponents.length : 0" matBadgeOverlap="false">Total components count</span>
+    </p>
+  </mat-toolbar-row>
+  
+</mat-toolbar>
+
+<div class="root">  
+  <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="center">
+    <div fxFlex="40%" *ngFor="let component of filteredComponents">
+      <mat-card class="component">
+        <mat-chip-list class="chip-list-float"><mat-chip selected="true" color="primary">{{getComponentModule(component)}}</mat-chip></mat-chip-list>
+        
+        <mat-card-header>
+          <mat-card-title>
+            <h2 class="center">{{component.name}}</h2>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="component.description">
+            <div fxFlex="10%">
+                <i class="material-icons" matTooltip="Description">description</i>
+            </div>
+            <div fxFlex="90%">
+                <p>{{component.description}}</p>
+            </div>
+          </div>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="component.parent">
+            <div fxFlex="10%">
+                <i class="material-icons" matTooltip="Parent">perm_identity</i>
+            </div>
+            <div fxFlex="90%">
+                <p>{{component.parent}}</p>
+            </div>
+          </div>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="component.group">
+            <div fxFlex="10%">
+                <i class="material-icons" matTooltip="Group">group</i>
+            </div>
+            <div fxFlex="90%">
+                <p>{{component.group}}</p>
+            </div>
+          </div>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="component.path">
+            <div fxFlex="10%">
+                <i class="material-icons" matTooltip="Absolute Path">local_parking</i>
+            </div>
+            <div fxFlex="90%">
+                <p>{{component.path}}</p>
+            </div>
+          </div>
+          <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center" *ngIf="component.createdAt">
+            <div fxFlex="10%">
+                <i class="material-icons" matTooltip="Created At">watch_later</i>
+            </div>
+            <div fxFlex="90%">
+                <p>{{component.createdAt}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

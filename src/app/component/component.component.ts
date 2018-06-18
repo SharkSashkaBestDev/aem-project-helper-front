@@ -11,7 +11,7 @@ export class ComponentComponent implements OnInit {
 
   components: MyComponent[];
   filteredComponents: MyComponent[];
-  projectPath: string = '/Users/alexandrmyagkiy/Documents/Work/TMG/AEM/Projects/Whirlpool/FromBitbucket/mine/digital-platform — копия';
+  projectPath: string = 'Enter your AEM project path here...';
   predefinedModulesDescriptors = [
     {path: 'core/wcm/', value: 'core'},
     {path: 'kitchenaid/', value: 'kitchenaid'},
